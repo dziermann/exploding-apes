@@ -1,0 +1,7 @@
+{
+  "generator-phaser": {
+    "projectName": "exploding-apes",
+    "esVersion": 6,
+    "gameFolder": "game"
+  }
+}
