@@ -20,7 +20,7 @@ class Explosion extends Phaser.Sprite {
       'x': x,
       'y': y
     });
-    this.shakenflash();
+    //this.shakenflash();
   }
   particleBurst(pointer) {
 

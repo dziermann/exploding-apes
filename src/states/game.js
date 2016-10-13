@@ -3,6 +3,8 @@ import Brick from '../prefabs/brick';
 import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
+var bricks;
+
 class Game extends Phaser.State {
 
   constructor() {
@@ -35,16 +37,27 @@ class Game extends Phaser.State {
 
   update() {
     this.game.physics.arcade.collide(this.platform, this.player);
+    this.game.physics.arcade.collide(bricks, this.player);
   }
 
   createBricks() {
+    bricks = this.game.add.group();
+    bricks.enableBody = true;
     var displayHeight = this.game.world.height;
 
-    this.brickLeft = new Brick(this.game, 50, displayHeight - 50);
-    this.game.add.existing(this.brickLeft);
+    //while (displayHeight > 0) {
+      var brickLeft = bricks.create(0, displayHeight - 100, 'brick');
+      brickLeft.body.immovable = true;
+      brickLeft.scale.setTo(2, 2);
+      brickLeft.body.allowGravity = false;
 
-    this.brickRight = new Brick(this.game, this.game.world.width - 50, displayHeight - 50);
-    this.game.add.existing(this.brickRight);
+      var brickRight = bricks.create(this.game.world.width - 100, displayHeight - 100, 'brick');
+      brickRight.body.immovable = true;
+      brickRight.scale.setTo(2, 2);
+      brickRight.body.allowGravity = false;
+
+     // displayHeight -= 100;
+   // }
 
   }
 
@@ -56,8 +69,8 @@ class Game extends Phaser.State {
 
   randomPlatformPosition() {
     return {
-      x: this.game.world.centerX,
-      y: this.game.world.centerY
+      x: this.game.world.width - 200,
+      y: this.game.world.height - 100 //this.game.world.centerY
     };
   }
 
