@@ -19,13 +19,7 @@ class Player extends Phaser.Sprite {
     this.scale.setTo(2, 2);
 
     //physics
-    this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.velocity.setTo(200, 200);
-    this.game.physics.arcade.gravity.y = 400;
-
     this.body.bounce.set(0.0);
-    this.body.gravity.set(0, 1000);
-    this.jumpTimer = 0;
 
     //set cursors
     this.cursors = game.input.keyboard.createCursorKeys();
@@ -48,13 +42,12 @@ class Player extends Phaser.Sprite {
     }
     else {
         this.body.velocity.x = 0;
-        this.animations.stop();
+        this.frame = 4;
     }
 
 
     if (this.spacebar.isDown && this.body.velocity.y == 0) {
-        this.body.velocity.y = -400;
-        this.jumpTimer = this.game.time.now + 750;
+        this.body.velocity.y = -600;
         this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
         this.game.add.existing(this.explosion);
     }
