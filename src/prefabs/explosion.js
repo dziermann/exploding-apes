@@ -6,7 +6,7 @@ class Explosion extends Phaser.Sprite {
         super(game, x, y);
         this.emitter = this.game.add.emitter(0, 0, 100);
 
-        this.emitter.makeParticles('banana');
+        this.emitter.makeParticles('bananas', [0,1], 200, true, true);
 
 		if(explosionType === 'cucumber') {
 			this.emitter.forEach(function(particle) {
@@ -17,6 +17,7 @@ class Explosion extends Phaser.Sprite {
 
         this.emitter.gravity = 100;
 		this.particleBurst({'x': x, 'y': y});
+		this.shakenflash();
     }
     particleBurst(pointer) {
 
@@ -31,6 +32,11 @@ class Explosion extends Phaser.Sprite {
         //  The final parameter (10) is how many particles will be emitted in this single burst
         this.emitter.start(true, 0, null, 10);
     }
+	shakenflash() {
+	    this.game.camera.shake(0.05, 100);
+		this.game.camera.flash(0xffffff, 100);
+
+	}
 
 
 }
