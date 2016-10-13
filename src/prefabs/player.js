@@ -39,6 +39,11 @@ class Player extends Phaser.Sprite {
         this.body.velocity.x = 0;
         this.animations.stop();
     }
+
+
+    if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        this.body.velocity.y = -200;
+    }
     
     
   }
