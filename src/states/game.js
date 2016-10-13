@@ -1,5 +1,4 @@
 import Player from '../prefabs/player';
-import Brick from '../prefabs/brick';
 import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
@@ -45,7 +44,7 @@ class Game extends Phaser.State {
     bricks.enableBody = true;
     var displayHeight = this.game.world.height;
 
-    //while (displayHeight > 0) {
+    while (displayHeight > 0) {
       var brickLeft = bricks.create(0, displayHeight - 100, 'brick');
       brickLeft.body.immovable = true;
       brickLeft.scale.setTo(2, 2);
@@ -56,8 +55,8 @@ class Game extends Phaser.State {
       brickRight.scale.setTo(2, 2);
       brickRight.body.allowGravity = false;
 
-     // displayHeight -= 100;
-   // }
+      displayHeight -= 100;
+    }
 
   }
 
@@ -68,9 +67,14 @@ class Game extends Phaser.State {
   }
 
   randomPlatformPosition() {
+    var worldWidthMax = this.game.world.width - 200;
+    var worldWidthMin = 200;
+    var worldHeightMax = this.game.world.height - 100;
+    var worldHeightMin = 100;
+
     return {
-      x: this.game.world.width - 200,
-      y: this.game.world.height - 100 //this.game.world.centerY
+      x: Math.floor(Math.random() * ( worldWidthMax - worldWidthMin + 1)) + worldWidthMin,
+      y: Math.floor(Math.random() * ( worldHeightMax - worldHeightMin + 1)) + worldHeightMin
     };
   }
 
