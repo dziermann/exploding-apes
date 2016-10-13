@@ -12,12 +12,9 @@ class Game extends Phaser.State {
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
 
-
     //setup prefabs
-    this.player = new Player(this.game,this.game.world.centerX,0);
+    this.player = new Player(this.game,this.game.world.centerX,this.game.world.height, 4);
     this.game.add.existing(this.player);
-
-    //setup a timer to end the game
   }
 
   update() {

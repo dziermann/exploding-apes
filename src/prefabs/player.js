@@ -3,72 +3,37 @@ class Player extends Phaser.Sprite {
 
   //initialization code in the constructor
   constructor(game, x, y, frame) {
-    super(game, x, y, 'dude', frame);
+    super(game, x, y, 'player', frame);
 
     //setup physics properties
     this.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enableBody(this);
     this.body.collideWorldBounds = true;
 
-    //set click event
-    this.inputEnabled = true;
-    this.events.onInputDown.add(this.clicked, this);
+    //set animations
+    this.animations.add('right', [5, 6, 7, 8], 4, true);
+    this.animations.add('left', [0, 1, 2, 3], 4, true);
 
     //set size
-    this.width = 100;
-    this.scale.y = Math.abs(this.scale.x);
-
+    this.scale.setTo(2, 2);
   }
 
   update () {
-    var standing = this.player.body.blocked.down || this.player.body.touching.down;
-
-    this.player.body.velocity.x = 0;
-
-    if (this.cursors.left.isDown)
-    {
-        this.player.body.velocity.x = -200;
-
-        if (this.facing !== 'left')
-        {
-            this.player.play('left');
-            this.facing = 'left';
-        }
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+    /*
+    if (this.cursors.left.isDown) {
+        this.body.velocity.x = -200;
+        this.animations.play('left');
     }
-    else if (this.cursors.right.isDown)
-    {
-        this.player.body.velocity.x = 200;
-
-        if (this.facing !== 'right')
-        {
-            this.player.play('right');
-            this.facing = 'right';
-        }
+    else if (this.cursors.right.isDown) {
+        this.body.velocity.x = 200;
+        this.animations.play('right');
     }
-    else
-    {
-        if (this.facing !== 'idle')
-        {
-            this.player.animations.stop();
-
-            if (this.facing === 'left')
-            {
-                this.player.frame = 0;
-            }
-            else
-            {
-                this.player.frame = 5;
-            }
-
-            this.facing = 'idle';
-        }
+    else {
+        this.animations.stop();
     }
-            
-    if (standing && this.cursors.up.isDown && this.time.time > this.jumpTimer)
-    {
-        this.player.body.velocity.y = -500;
-        this.jumpTimer = this.time.time + 750;
-    }
+    */
   }
 
 }
