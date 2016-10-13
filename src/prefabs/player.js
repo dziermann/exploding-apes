@@ -9,6 +9,10 @@ class Player extends Phaser.Sprite {
     this.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enableBody(this);
     this.body.collideWorldBounds = true;
+    this.body.checkCollison.up = false;
+    this.body.checkCollision.right = true;
+    this.body.checkCollision.left = true;
+    this.body.checkCollision.down = true;
 
     //set click event
     this.inputEnabled = true;
@@ -63,7 +67,7 @@ class Player extends Phaser.Sprite {
             this.facing = 'idle';
         }
     }
-            
+
     if (standing && this.cursors.up.isDown && this.time.time > this.jumpTimer)
     {
         this.player.body.velocity.y = -500;
