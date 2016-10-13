@@ -16,12 +16,16 @@ class Player extends Phaser.Sprite {
 
     //set size
     this.scale.setTo(2, 2);
+
+    //set cursors
+    this.cursors = game.input.keyboard.createCursorKeys();
   }
 
   update () {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
-    /*
+    
+    
     if (this.cursors.left.isDown) {
         this.body.velocity.x = -200;
         this.animations.play('left');
@@ -31,9 +35,11 @@ class Player extends Phaser.Sprite {
         this.animations.play('right');
     }
     else {
+        this.body.velocity.x = 0;
         this.animations.stop();
     }
-    */
+    
+    
   }
 
 }
