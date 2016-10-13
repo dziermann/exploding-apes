@@ -15,7 +15,7 @@ class Platform extends Phaser.Sprite {
     this.body.immovable = true;
   }
 
-  update () {
+  update() {
 
   }
 

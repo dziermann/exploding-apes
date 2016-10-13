@@ -1,5 +1,5 @@
-import Player  from '../prefabs/player';
-import Brick  from '../prefabs/brick';
+import Player from '../prefabs/player';
+import Brick from '../prefabs/brick';
 import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
@@ -11,7 +11,7 @@ class Game extends Phaser.State {
 
   create() {
     //add background image
-    this.background = this.game.add.sprite(0,0,'cloud-tiles');
+    this.background = this.game.add.sprite(0, 0, 'cloud-tiles');
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -40,12 +40,12 @@ class Game extends Phaser.State {
   createBricks() {
     var displayHeight = this.game.world.height;
 
-      this.brickLeft = new Brick(this.game, 50, displayHeight-50);
-      this.game.add.existing(this.brickLeft);
+    this.brickLeft = new Brick(this.game, 50, displayHeight - 50);
+    this.game.add.existing(this.brickLeft);
 
-      this.brickRight = new Brick(this.game, this.game.world.width-50, displayHeight-50);
-      this.game.add.existing(this.brickRight);
-    
+    this.brickRight = new Brick(this.game, this.game.world.width - 50, displayHeight - 50);
+    this.game.add.existing(this.brickRight);
+
   }
 
   createPlatforms() {
@@ -55,7 +55,10 @@ class Game extends Phaser.State {
   }
 
   randomPlatformPosition() {
-    return {x: this.game.world.centerX, y: this.game.world.centerY};
+    return {
+      x: this.game.world.centerX,
+      y: this.game.world.centerY
+    };
   }
 
 }

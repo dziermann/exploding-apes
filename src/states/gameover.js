@@ -4,8 +4,7 @@ class Background extends Phaser.State {
     super();
   }
 
-  create() {
-  }
+  create() {}
 
   update() {
 
