@@ -19,7 +19,7 @@ class Player extends Phaser.Sprite {
     this.scale.setTo(2, 2);
 
     //physics
-    this.game.physics.enable(this, Phaser.Physics.ARCADE);
+
     this.body.velocity.setTo(200, 200);
     this.game.physics.arcade.gravity.y = 400;
 
@@ -44,19 +44,21 @@ class Player extends Phaser.Sprite {
     } else if (this.cursors.right.isDown) {
       this.body.velocity.x = 400;
       this.animations.play('right');
-    } else {
+    }
+
+    if (this.cursors.up.isDown) {
+      this.body.velocity.y = -400;
+    } else if (this.cursors.down.isDown) {
+      this.body.velocity.y = 400;
+    }
+
+    if(! (this.cursors.up.isDown
+        || this.cursors.right.isDown
+        || this.cursors.down.isDown
+        || this.cursors.left.isDown)) {
       this.body.velocity.x = 0;
       this.animations.stop();
     }
-
-
-    if (true /*this.spacebar.isDown && this.body.velocity.y == 0*/ ) {
-      this.body.velocity.y = -400;
-      this.jumpTimer = this.game.time.now + 750;
-      // this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
-      // this.game.add.existing(this.explosion);
-    }
-
 
   }
 

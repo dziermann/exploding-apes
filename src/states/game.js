@@ -1,4 +1,6 @@
 import Player from '../prefabs/player';
+import DebugPlayer from '../prefabs/player-debug';
+import Brick from '../prefabs/brick';
 import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
@@ -18,7 +20,11 @@ class Game extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //setup prefabs
-    this.player = new Player(this.game, this.game.world.centerX, this.game.world.height);
+    if(location.search === '?debug'){
+        this.player = new DebugPlayer(this.game, this.game.world.centerX, this.game.world.height);
+    } else {
+        this.player = new Player(this.game, this.game.world.centerX, this.game.world.height);
+    }
     this.game.add.existing(this.player);
 
     this.createBricks();
