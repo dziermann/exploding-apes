@@ -1,4 +1,3 @@
-import Crosshairs  from '../prefabs/crosshairs'
 import Player  from '../prefabs/player'
 
 class Game extends Phaser.State {
