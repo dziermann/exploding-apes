@@ -1,5 +1,6 @@
-import Player  from '../prefabs/player'
-import Platform from '../prefabs/platform'
+import Player  from '../prefabs/player';
+import Tiles  from '../prefabs/tiles';
+import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
 class Game extends Phaser.State {
@@ -14,22 +15,39 @@ class Game extends Phaser.State {
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.platform = new Platform(this.game, 100, this.game.height - 50);
-    this.game.add.existing(this.platform);
 
     //setup prefabs
+    this.player = new Player(this.game, this.game.world.centerX, this.game.world.height);
+    this.game.add.existing(this.player);
 
-    this.player = new Player(this.game, this.game.world.centerX, this.game.world.height, 4);
+    this.createWalltiles();
 
     //particles
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN);
-    this.game.add.existing(this.player);
+
+    //physics
+    this.game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.game.physics.arcade.gravity.y = 1000;
 
   }
 
   update() {
     this.game.physics.arcade.collide(this.platform, this.player);
+  }
+
+  createWalltiles() {
+    
+  }
+
+  createPlatforms() {
+    var position = randomPlatformPosition();
+    this.platform = new Platform(this.game, position.x, position.y);
+    this.game.add.existing(this.platform);
+  }
+
+  randomPlatformPosition() {
+    return {x: 100, y: 100};
   }
 
 }
