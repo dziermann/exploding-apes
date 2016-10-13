@@ -43,7 +43,7 @@ class Menu extends Phaser.State {
 	//
     //add intro text
 	//
-    // this.input.onDown.add(this.onInputDown, this);
+    this.input.onDown.add(this.onInputDown, this);
     // this.canContinueToNextState = true;
 
 	this.text2 = this.game.add.text(32, this.game.world.height - 100, '', { font: "30pt Courier", fill: "#ff1779", stroke: "#c70078", strokeThickness: 2 });
@@ -72,6 +72,9 @@ class Menu extends Phaser.State {
 			this.game.time.events.repeat(80, this.content[this.index].length + 1, this.updateLine, this);
 		}
 
+	}
+	onInputDown () {
+		this.game.state.start('game');
 	}
 }
 
