@@ -1,5 +1,5 @@
 import Player  from '../prefabs/player';
-import Tiles  from '../prefabs/tiles';
+import Brick  from '../prefabs/brick';
 import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
@@ -20,7 +20,8 @@ class Game extends Phaser.State {
     this.player = new Player(this.game, this.game.world.centerX, this.game.world.height);
     this.game.add.existing(this.player);
 
-    this.createWalltiles();
+    this.createBricks();
+    this.createPlatforms();
 
     //particles
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -36,18 +37,25 @@ class Game extends Phaser.State {
     this.game.physics.arcade.collide(this.platform, this.player);
   }
 
-  createWalltiles() {
+  createBricks() {
+    var displayHeight = this.game.world.height;
+
+      this.brickLeft = new Brick(this.game, 50, displayHeight-50);
+      this.game.add.existing(this.brickLeft);
+
+      this.brickRight = new Brick(this.game, this.game.world.width-50, displayHeight-50);
+      this.game.add.existing(this.brickRight);
     
   }
 
   createPlatforms() {
-    var position = randomPlatformPosition();
+    var position = this.randomPlatformPosition();
     this.platform = new Platform(this.game, position.x, position.y);
     this.game.add.existing(this.platform);
   }
 
   randomPlatformPosition() {
-    return {x: 100, y: 100};
+    return {x: this.game.world.centerX, y: this.game.world.centerY};
   }
 
 }
