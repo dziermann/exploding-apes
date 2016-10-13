@@ -1,3 +1,4 @@
+import Explosion from '../prefabs/explosion';
 //Documentation for Phaser's (2.5.0) states:: phaser.io/docs/2.5.0/Phaser.State.html
 class Player extends Phaser.Sprite {
 
@@ -36,8 +37,8 @@ class Player extends Phaser.Sprite {
 
   update () {
     this.body.velocity.x = 0;
-    
-    
+
+
     if (this.cursors.left.isDown) {
         this.body.velocity.x = -400;
         this.animations.play('left');
@@ -55,9 +56,11 @@ class Player extends Phaser.Sprite {
     if (this.spacebar.isDown && this.body.onFloor()) {
         this.body.velocity.y = -400;
         this.jumpTimer = this.game.time.now + 750;
+		this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
+		this.game.add.existing(this.explosion);
     }
-    
-    
+
+
   }
 
 }
