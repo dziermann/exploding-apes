@@ -11,7 +11,7 @@ class Game extends Phaser.State {
     this.background = this.game.add.sprite(0,0,'background');
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
-
+    this.game.camera.follow(ufo, Phaser.Camera.FOLLOW_TOPDOWN);
 
     //setup prefabs
     this.player = new Player(this.game,this.game.world.centerX,0);
@@ -21,7 +21,7 @@ class Game extends Phaser.State {
   }
 
   update() {
-    
+
   }
 
 }
