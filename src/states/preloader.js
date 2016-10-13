@@ -17,6 +17,7 @@ class Preloader extends Phaser.State {
   }
 
   loadResources() {
+	this.game.load.image('title', 'assets/spacekong.png');
     this.game.load.image('background', 'assets/background.png');
     this.game.load.image('brick', 'assets/brick.png', 50, 50);
     this.game.load.image('platform-grass', 'assets/platform.png');
@@ -28,10 +29,12 @@ class Preloader extends Phaser.State {
 
     this.game.load.audio('gunshot', 'assets/gunshot.wav');
     this.game.load.audio('ding', 'assets/ding.wav');
+
+	this.game.load.image('knightHawks', 'assets/fonts/retroFonts/KNIGHT3.png');
   }
 
   onLoadComplete() {
-    this.game.state.start('background');
+    this.game.state.start('menu');
   }
 }
 
