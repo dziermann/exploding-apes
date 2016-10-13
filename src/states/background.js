@@ -9,6 +9,8 @@ class Background extends Phaser.State {
     this.background = this.game.add.sprite(0,0,'background');
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
+
+    this.game.state.start('game');
   }
 
   update() {}
