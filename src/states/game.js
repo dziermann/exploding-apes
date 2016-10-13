@@ -13,7 +13,8 @@ class Game extends Phaser.State {
     this.background.width = this.game.world.width;
 
     //setup prefabs
-    this.player = new Player(this.game,this.game.world.centerX,this.game.world.height, 4);
+    this.player = new Player(this.game,this.game.world.centerX,this.game.world.centerY, 4);
+    
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN);
     this.game.add.existing(this.player);
   }
