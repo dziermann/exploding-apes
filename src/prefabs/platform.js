@@ -8,8 +8,10 @@ class Platform extends Phaser.Sprite {
     //setup physics properties
     this.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enableBody(this);
-    this.body.collideWorldBounds = true;
-    this.body.checkCollision.down = false;
+    this.body.allowGravity = false;
+    this.body.checkCollision.up = true;
+    this.body.checkCollision.left = false;
+    this.body.checkCollision.right = false;
     this.body.immovable = true;
   }
 

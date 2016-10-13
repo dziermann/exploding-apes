@@ -12,9 +12,9 @@ class Game extends Phaser.State {
     this.background = this.game.add.sprite(0,0,'background');
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
-
-    var platform = new Platform(this.game, 100, this.game.height - 100);
-    this.game.add.existing(platform);
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.platform = new Platform(this.game, 100, this.game.height - 50);
+    this.game.add.existing(this.platform);
 
     //setup prefabs
     this.player = new Player(this.game, this.game.world.centerX, this.game.world.height, 4);
@@ -24,7 +24,7 @@ class Game extends Phaser.State {
   }
 
   update() {
-
+    this.game.physics.arcade.collide(this.platform, this.player);
   }
 
 }
