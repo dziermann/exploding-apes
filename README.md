@@ -33,4 +33,4 @@ _  /___  __>  < __  /_/ /  / / /_/ / /_/ / _  / _  / / /  /_/ /
   `npm run build`
 
 
-_© Christian, Dino, Hendrik, Magda, Nina_
+_© Magda, Nina, Christian C., Dino, Hendrik, _
