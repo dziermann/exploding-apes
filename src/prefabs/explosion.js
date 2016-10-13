@@ -22,8 +22,8 @@ class Explosion extends Phaser.Sprite {
     particleBurst(pointer) {
 
         //  Position the emitter where the mouse/touch event was
-        this.emitter.x = pointer.x;
-        this.emitter.y = pointer.y;
+        this.emitter.x = pointer.x + 32;
+        this.emitter.y = pointer.y + 100;
 
 
         //  The first parameter sets the effect to "explode" which means all particles are emitted at once
