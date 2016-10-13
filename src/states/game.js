@@ -1,5 +1,6 @@
 import Player  from '../prefabs/player'
 import Platform from '../prefabs/platform'
+import Explosion from '../prefabs/explosion';
 
 class Game extends Phaser.State {
 
@@ -17,7 +18,11 @@ class Game extends Phaser.State {
     this.game.add.existing(this.platform);
 
     //setup prefabs
+
     this.player = new Player(this.game, this.game.world.centerX, this.game.world.height, 4);
+
+    //particles
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN);
     this.game.add.existing(this.player);
 
