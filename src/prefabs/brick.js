@@ -1,12 +1,12 @@
 //Documentation for Phaser's (2.5.0) states:: phaser.io/docs/2.5.0/Phaser.State.html
-class Tiles extends Phaser.Sprite {
+class Brick extends Phaser.Sprite {
 
   //initialization code in the constructor
   constructor(game, x, y, frame) {
-    super(game, 0, 0, 'walltiles');
+    super(game, x, y, 'brick');
 
     //set size
-
+    this.scale.setTo(2, 2);
     this.anchor.setTo(0.5, 0.5);
   }
 
@@ -15,4 +15,4 @@ class Tiles extends Phaser.Sprite {
 
 }
 
-export default Tiles;
+export default Brick;
