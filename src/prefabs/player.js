@@ -27,7 +27,7 @@ class Player extends Phaser.Sprite {
     this.animations.add('jump', [10], 1, false);
 
     //set size
-    this.scale.setTo(2, 2);
+    this.scale.setTo(1, 1);
 
     //physics
    this.body.bounce.set(0.0);
@@ -72,7 +72,7 @@ class Player extends Phaser.Sprite {
         this.animations.play('idle');
       }
 
-      if ((this.body.velocity.y === 0 && this.control === 'keyboard' && spacebarDown) || (this.body.velocity.y === 0 && this.control === 'controller' && controllerDown)) {
+      if (this.body.wasTouching.down && (this.control === 'keyboard' && spacebarDown) || (this.control === 'controller' && controllerDown)) {
         this.body.velocity.y = -700;
         this.animations.play('jump');
         this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'stars', this.gameState);
@@ -87,6 +87,12 @@ class Player extends Phaser.Sprite {
 
   addScore (score) {
     this.score += score;
+  }
+
+  explode() {
+    this.scale.setTo(4, 0.5);
+    var thisScale = this.scale;
+    setTimeout(function() {thisScale.setTo(1, 1)}, 1000);
   }
 
 }

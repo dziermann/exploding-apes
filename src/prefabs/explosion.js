@@ -8,7 +8,7 @@ class Explosion extends Phaser.Sprite {
     //setup audio
     this.sparkle = this.game.add.audio('sparkle');
 
-    this.emitter.gravity = 100;
+
     if (explosionType === 'bananas') {
 
     } else if (explosionType === 'stars') {
@@ -59,7 +59,7 @@ class Explosion extends Phaser.Sprite {
 
     this.emitter.minParticleSpeed.setTo(200, 300);
     this.emitter.maxParticleSpeed.setTo(-200, 400);
-    this.emitter.gravity = 150;
+    this.emitter.gravity = 50;
     this.emitter.bounce.setTo(0.5, 0.5);
     this.emitter.angularDrag = 30;
 

@@ -1,6 +1,7 @@
 import Player from '../prefabs/player';
 import DebugPlayer from '../prefabs/player-debug';
 import Platform from '../prefabs/platform';
+import Enemy from '../prefabs/enemy';
 
 var bricks;
 
@@ -21,9 +22,12 @@ class Game extends Phaser.State {
 
     this.configurePhysics();
     this.createClouds();
-    this.createPlatforms(50);
+    this.createPlatforms(75);
     this.createPlayer(this);
+
     this.createBricks();
+    //this.createEnemyBricks();
+    this.createEnemies();
 
     this.game.time.events.add(Phaser.Timer.SECOND * 30, this.gameOver, this); //game time = 60
   }
@@ -53,10 +57,22 @@ class Game extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
   }
 
-  createPlayer(that) {
 
-      this.player1 = new Player(this.game, this.game.world.centerX - 100, 0, 'unicorn1', 'keyboard', this);
-      this.player2 = new Player(this.game, this.game.world.centerX + 100, 0, 'unicorn2', 'controller', this);
+  getStartPlatforms(){
+    var platforms = this.platforms.children;
+    return platforms.slice(platforms.length-2)
+  }
+
+  createPlayer(that) {
+    var platforms = this.getStartPlatforms();
+
+    this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height / 2, 'unicorn1', 'keyboard', this);
+    platforms[0].x = this.player1.x - platforms[0].width / 2;
+    platforms[0].y = this.player1.y + this.player1.height;
+
+    this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height / 2, 'unicorn2', 'controller', this);
+    platforms[1].x = this.player2.x - platforms[1].width / 2;
+    platforms[1].y = this.player2.y + this.player2.height;
 
     this.game.add.existing(this.player1);
     this.game.add.existing(this.player2);
@@ -76,6 +92,34 @@ class Game extends Phaser.State {
     })
   }
 
+  createEnemies() {
+    var displayHeight = this.game.world.height;
+    var displayHeight = this.game.world.height;
+    var displayWidth = this.game.world.width;
+    this.enemy = new Enemy(this.game, displayWidth - 120, displayHeight - 500, this.player);
+    this.enemy2 = new Enemy(this.game, 120, displayHeight - 500, this.player);
+    this.game.add.existing(this.enemy);
+    //this.game.add.existing(this.enemy2);
+  }
+  explode1() {
+    this.player1.explode();
+  }
+
+  explode2() {
+    this.player2.explode();
+  }
+
+  createEnemyBricks() {
+    this.enemyBricks = this.game.add.group();
+    this.enemyBricks.enableBody = true;
+    var displayHeight = this.game.world.height;
+    var displayWidth = this.game.world.width;
+    this.enemybrickLeft = this.enemyBricks.create(displayWidth - 200, displayHeight - 500, 'brick');
+    this.enemybrickLeft.body.immovable = true;
+    this.enemybrickLeft.scale.setTo(2, 2);
+    this.enemybrickLeft.body.allowGravity = false;
+  }
+
   update() {
     this.game.physics.arcade.collide(this.platforms, this.player1);
     this.game.physics.arcade.collide(this.platforms, this.player2);
@@ -89,6 +133,11 @@ class Game extends Phaser.State {
     if (this.player2.alive) {
       this.player2.addScore(0.01);
     }
+
+    this.game.physics.arcade.collide(this.enemyBricks, this.enemy);
+    this.game.physics.arcade.overlap(this.enemy.getWeapon().bullets, this.player1, this.explode1, null, this);
+    this.game.physics.arcade.overlap(this.enemy.getWeapon().bullets, this.player2, this.explode2, null, this);
+
   }
 
   initCloud(cloud, x, y){
@@ -149,7 +198,7 @@ class Game extends Phaser.State {
       currentPlatform.events.onKilled.add(function(platform){
         this.initPlatform(platform, randomBetween(0, width), 0 - platform.height);
       }, this);
-      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i % 2)+1));
+      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i - i % 2)+1));
     }
   }
 
@@ -157,6 +206,10 @@ class Game extends Phaser.State {
     if(platform){
       //Reset it to the specified coordinates
       platform.reset(x, y);
+      platform.body.checkCollision.top = false;
+      platform.body.checkCollision.right = false;
+      platform.body.checkCollision.down = false;
+      platform.body.checkCollision.left = false;
       platform.body.velocity.y = 150;
       platform.body.immovable = true;
       platform.body.acceleration = new Phaser.Point();
