@@ -21,9 +21,9 @@ class Game extends Phaser.State {
 
     this.configurePhysics();
     this.createClouds();
+    this.createPlatforms(50);
     this.createPlayer();
     this.createBricks();
-    this.createPlatforms();
 
     this.game.time.events.add(Phaser.Timer.SECOND * 15, this.gameOver, this);
   }
@@ -67,11 +67,10 @@ class Game extends Phaser.State {
   }
 
   update() {
-    this.game.physics.arcade.collide(this.platform, this.player1);
-    this.game.physics.arcade.collide(this.platform, this.player2);
+    this.game.physics.arcade.collide(this.platforms, this.player1);
+    this.game.physics.arcade.collide(this.platforms, this.player2);
     this.game.physics.arcade.collide(bricks, this.player1);
     this.game.physics.arcade.collide(bricks, this.player2);
-
     if (this.player1.alive) {
       this.player1.addScore(0.01);
     }
@@ -116,22 +115,44 @@ class Game extends Phaser.State {
     }
   }
 
-  createPlatforms() {
-    var position = this.randomPlatformPosition();
-    this.platform = new Platform(this.game, position.x, position.y);
-    this.game.add.existing(this.platform);
+  createPlatforms(distance) {
+    //group(parent, name, addToStage, enableBody, physicsBodyType)
+    this.platforms = this.game.add.group(undefined, 'platforms', false, true, Phaser.Physics.ARCADE);
+    this.platforms.createMultiple(20, 'platform-grass');
+
+    function randomBetween(a,b){
+        if(a > b){
+          var c = a;
+          a = b;
+          b = c;
+        }
+        var dist = b - a;
+        var rand = Math.round(Math.random() * dist);
+        return a + rand;
+    }
+
+    for(var i = 0; i < this.platforms.children.length; i++) {
+      var currentPlatform = this.platforms.children[i];
+      var height = this.game.world.height;
+      var width = this.game.world.width;
+      currentPlatform.events.onKilled.add(function(platform){
+        this.initPlatform(platform, randomBetween(0, width), 0 - platform.height);
+      }, this);
+      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i % 2)+1));
+    }
   }
 
-  randomPlatformPosition() {
-    var worldWidthMax = this.game.world.width - 200;
-    var worldWidthMin = 200;
-    var worldHeightMax = this.game.world.height - 100;
-    var worldHeightMin = 100;
-
-    return {
-      x: Math.floor(Math.random() * (worldWidthMax - worldWidthMin + 1)) + worldWidthMin,
-      y: Math.floor(Math.random() * (worldHeightMax - worldHeightMin + 1)) + worldHeightMin
-    };
+  initPlatform(platform, x, y){
+    if(platform){
+      //Reset it to the specified coordinates
+      platform.reset(x, y);
+      platform.body.velocity.y = 150;
+      platform.body.immovable = true;
+      platform.body.acceleration = new Phaser.Point();
+      //When the tile leaves the screen, move it to top
+      platform.checkWorldBounds = true;
+      platform.outOfBoundsKill = true;
+    }
   }
 
   gameOver() {
