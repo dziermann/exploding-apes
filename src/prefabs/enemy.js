@@ -61,8 +61,7 @@ class Enemy extends Phaser.Sprite {
       var varWeapon = this.weapon;
       var varFx = this.fx;
       this.animations.play('default');
-       setTimeout(function(){
-           console.log(self);
+       setTimeout(function() {
            self.weapon.fire();
            self.fx.play();
            this.count = 0;
