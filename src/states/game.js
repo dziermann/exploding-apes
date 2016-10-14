@@ -18,8 +18,10 @@ class Game extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //setup prefabs
-    this.player = new Player(this.game, this.game.world.centerX, this.game.world.height);
-    this.game.add.existing(this.player);
+    this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height, 'player', 'keyboard');
+    this.game.add.existing(this.player1);
+    this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height, 'player', 'controller');
+    this.game.add.existing(this.player2);
 
     this.createBricks();
     this.createPlatforms();
