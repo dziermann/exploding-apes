@@ -19,9 +19,6 @@ class Player extends Phaser.Sprite {
 	this.animations.add('jump-left', [0, 5], 1, false);
 	this.animations.add('jump', [0, 5], 1, false);
 
-	//setup audio
-    this.sparkle = this.game.add.audio('sparkle');
-
     //set size
     this.scale.setTo(2, 2);
 
@@ -56,8 +53,7 @@ class Player extends Phaser.Sprite {
 
     if (this.spacebar.isDown && this.body.velocity.y === 0) {
       this.body.velocity.y = -600;
-	  this.sparkle.play();
-      this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
+      this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'stars');
       this.game.add.existing(this.explosion);
     }
 
