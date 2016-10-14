@@ -55,8 +55,8 @@ class Game extends Phaser.State {
 
   createPlayer() {
 
-      this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height, 'unicorn1', 'keyboard', this);
-      this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height, 'unicorn2', 'controller', this);
+      this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height / 2, 'unicorn1', 'keyboard', this);
+      this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height / 2, 'unicorn2', 'controller', this);
 
     this.game.add.existing(this.player1);
     this.game.add.existing(this.player2);
@@ -138,7 +138,7 @@ class Game extends Phaser.State {
       currentPlatform.events.onKilled.add(function(platform){
         this.initPlatform(platform, randomBetween(0, width), 0 - platform.height);
       }, this);
-      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i % 2)+1));
+      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i - i % 2)+1));
     }
   }
 
