@@ -1,6 +1,5 @@
 import Player from '../prefabs/player';
-import DebugPlayer from '../prefabs/player-debug';
-import Brick from '../prefabs/brick';
+import DebugPlayer from '../prefabs/player-debug';;
 import Platform from '../prefabs/platform';
 import Explosion from '../prefabs/explosion';
 
@@ -13,36 +12,62 @@ class Game extends Phaser.State {
   }
 
   create() {
-    //add background image
-    this.background = this.game.add.sprite(0, 0, 'background');
-    this.background.height = this.game.world.height;
-    this.background.width = this.game.world.width;
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.configurePhysics();
+    this.createClouds();
+    this.createPlayer();
+    this.createBricks();
+    this.createPlatforms();
+  }
 
-    //setup prefabs
+  createClouds() {
+    this.clouds = this.game.add.group();
+    this.clouds.enableBody = true;
+    this.clouds.tileWidth = this.game.world.width;
+    this.clouds.tileHeight = this.game.world.height;
+    this.clouds.createMultiple(5, 'cloud-tiles');
+    this.addCloudOnTop();
+    this.addCloud(0,0);
+    // me.timer = game.time.events.loop(2000, me.addPlatform, me);
+    this.game.time.events.loop(2000, this.addCloudOnTop, this);
+  }
+
+  configurePhysics(){
+    //physics
+    this.game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.game.physics.arcade.gravity.y = 1000;
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+  }
+
+  createPlayer(){
     if(location.search === '?debug'){
         this.player = new DebugPlayer(this.game, this.game.world.centerX, this.game.world.height);
     } else {
         this.player = new Player(this.game, this.game.world.centerX, this.game.world.height);
     }
     this.game.add.existing(this.player);
-
-    this.createBricks();
-    this.createPlatforms();
-
-    //particles
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN);
-
-    //physics
-    this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.game.physics.arcade.gravity.y = 1000;
-
   }
 
   update() {
     this.game.physics.arcade.collide(this.platform, this.player);
     this.game.physics.arcade.collide(bricks, this.player);
+  }
+
+  addCloudOnTop() {
+    this.addCloud(0, - this.game.world.height);
+  }
+
+  addCloud(x, y){
+      //Get a tile that is not currently on screen
+      var cloud = this.clouds.getFirstDead();
+      cloud.width = this.game.world.width;
+      cloud.height = this.game.world.height;
+      //Reset it to the specified coordinates
+      cloud.reset(x, y);
+      cloud.body.velocity.y = 150;
+      cloud.body.immovable = true;
+      //When the tile leaves the screen, kill it
+      cloud.checkWorldBounds = true;
+      cloud.outOfBoundsKill = true;
   }
 
   createBricks() {
