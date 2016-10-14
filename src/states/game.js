@@ -12,7 +12,7 @@ class Game extends Phaser.State {
 
   create() {
     //add background image
-    this.background = this.game.add.sprite(0, 0, 'cloud-tiles');
+    this.background = this.game.add.sprite(0, 0, 'background');
     this.background.height = this.game.world.height;
     this.background.width = this.game.world.width;
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
