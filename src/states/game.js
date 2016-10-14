@@ -22,7 +22,7 @@ class Game extends Phaser.State {
     this.createBricks();
     this.createPlatforms();
 
-    this.game.time.events.add(Phaser.Timer.SECOND * 3, this.gameOver, this);
+    this.game.time.events.add(Phaser.Timer.SECOND * 30, this.gameOver, this);
   }
 
   createClouds() {
@@ -64,8 +64,10 @@ class Game extends Phaser.State {
   }
 
   update() {
-    this.game.physics.arcade.collide(this.platform, this.player);
-    this.game.physics.arcade.collide(bricks, this.player);
+    this.game.physics.arcade.collide(this.platform, this.player1);
+    this.game.physics.arcade.collide(this.platform, this.player2);
+    this.game.physics.arcade.collide(bricks, this.player1);
+    this.game.physics.arcade.collide(bricks, this.player2);
 
     if (this.player1.alive) {
       this.player1.addScore(0.1);
@@ -74,8 +76,6 @@ class Game extends Phaser.State {
     if (this.player2.alive) {
       this.player2.addScore(0.1);
     }
-
-
   }
 
   initCloud(cloud, x, y){

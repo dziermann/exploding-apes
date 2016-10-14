@@ -26,7 +26,8 @@ class Player extends Phaser.Sprite {
     this.scale.setTo(2, 2);
 
     //physics
-    this.body.bounce.set(0.0);
+   this.body.bounce.set(0.0);
+   this.body.gravity.set(0, 1000);
 
     //set cursors
     this.cursors = game.input.keyboard.createCursorKeys();
@@ -48,7 +49,6 @@ class Player extends Phaser.Sprite {
     var controllerDown = this.pad1.justPressed(Phaser.Gamepad.XBOX360_A);
 
 
-
       if ((this.control === 'keyboard' && cursorLeft) || (this.control === 'controller' && controllerLeft)) {
         this.body.velocity.x = -400;
         if (this.body.velocity.y !== 0) {
@@ -64,13 +64,12 @@ class Player extends Phaser.Sprite {
         } else {
           this.animations.play('right');
         }
-      } else {
-        this.body.velocity.x = 0;
+      } else if (this.body.velocity.y === 0) {
         this.animations.play('idle');
       }
 
-      if (this.body.velocity.y === 0 && (this.control === 'keyboard' && spacebarDown) || (this.control === 'controller' && controllerDown)) {
-        this.body.velocity.y = -600;
+      if ((this.body.velocity.y === 0 && this.control === 'keyboard' && spacebarDown) || (this.body.velocity.y === 0 && this.control === 'controller' && controllerDown)) {
+        this.body.velocity.y = -700;
         this.animations.play('jump');
         this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'stars');
         this.game.add.existing(this.explosion);
