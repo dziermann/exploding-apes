@@ -53,10 +53,21 @@ class Game extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
   }
 
+  getStartPlatforms(){
+    var platforms = this.platforms.children;
+    return platforms.slice(platforms.length-2)
+  }
+
   createPlayer() {
+    var platforms = this.getStartPlatforms();
 
     this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height / 2, 'unicorn1', 'keyboard', this);
+    platforms[0].x = this.player1.x - platforms[0].width / 2;
+    platforms[0].y = this.player1.y + this.player1.height;
+
     this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height / 2, 'unicorn2', 'controller', this);
+    platforms[1].x = this.player2.x - platforms[1].width / 2;
+    platforms[1].y = this.player2.y + this.player2.height;
 
     this.game.add.existing(this.player1);
     this.game.add.existing(this.player2);
