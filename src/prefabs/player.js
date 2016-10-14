@@ -12,8 +12,15 @@ class Player extends Phaser.Sprite {
     this.body.collideWorldBounds = true;
 
     //set animations
-    this.animations.add('right', [5, 6, 7, 8], 4, true);
-    this.animations.add('left', [0, 1, 2, 3], 4, true);
+    this.animations.add('right', [1, 2, 3, 2], 3, true);
+    this.animations.add('left', [9, 8, 7, 8], 3, true);
+	this.animations.add('idle', [0, 5], 1, false);
+	this.animations.add('jump-right', [0, 5], 1, false);
+	this.animations.add('jump-left', [0, 5], 1, false);
+	this.animations.add('jump', [0, 5], 1, false);
+
+	//setup audio
+    this.sparkle = this.game.add.audio('sparkle');
 
     //set size
     this.scale.setTo(2, 2);
@@ -43,12 +50,13 @@ class Player extends Phaser.Sprite {
       this.animations.play('right');
     } else {
       this.body.velocity.x = 0;
-      this.frame = 4;
+	  this.animations.play('idle');
     }
 
 
-    if (this.spacebar.isDown && this.body.velocity.y == 0) {
+    if (this.spacebar.isDown && this.body.velocity.y === 0) {
       this.body.velocity.y = -600;
+	  this.sparkle.play();
       this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
       this.game.add.existing(this.explosion);
     }
