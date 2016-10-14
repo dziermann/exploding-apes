@@ -1,6 +1,7 @@
 import Player from '../prefabs/player';
 import DebugPlayer from '../prefabs/player-debug';
 import Platform from '../prefabs/platform';
+import Enemy from '../prefabs/enemy';
 
 var bricks;
 
@@ -24,6 +25,8 @@ class Game extends Phaser.State {
     this.createPlatforms(75);
     this.createPlayer();
     this.createBricks();
+    this.createEnemyBricks();
+    this.createEnemies();
 
     this.game.time.events.add(Phaser.Timer.SECOND * 15, this.gameOver, this);
   }
@@ -77,6 +80,29 @@ class Game extends Phaser.State {
     this.playerEffectsGroup.add(this.player2);
   }
 
+  createEnemies() {
+    var displayHeight = this.game.world.height;
+    this.enemy = new Enemy(this.game, 160, this.enemybrickLeft.top - 36, this.player);
+    this.game.add.existing(this.enemy);
+  }
+  explode1() {
+    this.player1.explode();
+  }
+
+  explode2() {
+    this.player2.explode();
+  }
+
+  createEnemyBricks() {
+    this.enemyBricks = this.game.add.group();
+    this.enemyBricks.enableBody = true;
+    var displayHeight = this.game.world.height;
+    this.enemybrickLeft = this.enemyBricks.create(100, displayHeight - 500, 'brick');
+    this.enemybrickLeft.body.immovable = true;
+    this.enemybrickLeft.scale.setTo(2, 2);
+    this.enemybrickLeft.body.allowGravity = false;
+  }
+
   update() {
     this.game.physics.arcade.collide(this.platforms, this.player1);
     this.game.physics.arcade.collide(this.platforms, this.player2);
@@ -89,6 +115,11 @@ class Game extends Phaser.State {
     if (this.player2.alive) {
       this.player2.addScore(0.01);
     }
+
+    this.game.physics.arcade.collide(this.enemyBricks, this.enemy);
+    this.game.physics.arcade.overlap(this.enemy.getWeapon().bullets, this.player1, this.explode1, null, this);
+    this.game.physics.arcade.overlap(this.enemy.getWeapon().bullets, this.player2, this.explode2, null, this);
+
   }
 
   initCloud(cloud, x, y){
