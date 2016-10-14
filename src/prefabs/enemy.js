@@ -56,14 +56,17 @@ class Enemy extends Phaser.Sprite {
   update() {
     //new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
     this.count++;
-
+    var self = this;
     if(!(this.count % this.rand(50, 100))) {
       var varWeapon = this.weapon;
       var varFx = this.fx;
       this.animations.play('default');
-      this.weapon.fire();
-      this.fx.play();
-      this.count = 0;
+       setTimeout(function(){
+           console.log(self);
+           self.weapon.fire();
+           self.fx.play();
+           this.count = 0;
+       }, 400);
     }
   }
 

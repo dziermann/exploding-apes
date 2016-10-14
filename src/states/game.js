@@ -2,6 +2,7 @@ import Player from '../prefabs/player';
 import DebugPlayer from '../prefabs/player-debug';
 import Platform from '../prefabs/platform';
 import Enemy from '../prefabs/enemy';
+import Menu from '../states/menu';
 
 var bricks;
 
@@ -207,6 +208,7 @@ class Game extends Phaser.State {
   }
 
   gameOver() {
+    this.game.state.states.menu.music.stop();
     this.game.state.start('gameover', true, false, [this.player1, this.player2]);
   }
 
