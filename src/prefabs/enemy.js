@@ -18,25 +18,19 @@ class Enemy extends Phaser.Sprite {
     this.animations.add('default', [1, 2, 3, 4, 5], 4, false);
 
     //set size
-    //this.scale.setTo(1, 1);
+    this.scale.setTo(1, 1);
 
     //physics
     this.body.bounce.set(0.0);
 
-    this.scale.setTo(2, 2);
-
-
-
-
-
     //  Creates 1 single bullet, using the 'bullet' graphic
-    this.weapon = this.game.add.weapon(3, 'banana');
+    this.weapon = this.game.add.weapon(3, 'bananas');
 
     //  The bullet will be automatically killed when it leaves the world bounds
     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 
     //  Because our bullet is drawn facing up, we need to offset its rotation:
-    this.weapon.fireAngle = 40;
+    this.weapon.fireAngle = 130;
     this.weapon.bulletAngleVariance = 20;
 
     //  The speed at which the bullet is fired
@@ -63,7 +57,7 @@ class Enemy extends Phaser.Sprite {
     //new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
     this.count++;
 
-    if(!(this.count % this.rand(100, 150))) {
+    if(!(this.count % this.rand(50, 100))) {
       var varWeapon = this.weapon;
       var varFx = this.fx;
       this.animations.play('default');

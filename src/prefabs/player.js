@@ -89,7 +89,7 @@ class Player extends Phaser.Sprite {
   explode() {
     this.scale.setTo(4, 0.5);
     var thisScale = this.scale;
-    setTimeout(function() {thisScale.setTo(2, 2)}, 1000);
+    setTimeout(function() {thisScale.setTo(1, 1)}, 1000);
   }
 
 }

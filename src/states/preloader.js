@@ -25,7 +25,7 @@ class Preloader extends Phaser.State {
     this.game.load.image('cloud-tiles', 'assets/cloud-tiles.png');
     this.game.load.image('bananas', 'assets/bananas.png', 40, 40);
 
-    this.game.load.audio('gunshot', 'assets/gunshot.wav');
+    this.game.load.audio('gunshot', 'assets/arrow.mp3');
     this.game.load.audio('ding', 'assets/ding.wav');
     this.game.load.audio('sparkle', 'assets/sparkle.wav');
     this.game.load.audio('music', 'assets/music/musico.mp3');
