@@ -6,8 +6,8 @@ class Menu extends Phaser.State {
     }
 
     create() {
-        var music = this.game.add.audio('music');
-        music.play();
+        this.music = this.game.add.audio('music');
+        this.music.play();
         //add background image
         this.background = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'title');
         this.background.anchor.setTo(0.5)
@@ -74,6 +74,9 @@ class Menu extends Phaser.State {
     }
     onInputDown() {
         this.game.state.start('game');
+    }
+    stopMusic() {
+        this.music.stop();
     }
 }
 

@@ -19,8 +19,8 @@ class Player extends Phaser.Sprite {
     this.outOfBoundsKill = true;
 
     //set animations
-    this.animations.add('right', [1, 2, 3, 2], 3, true);
-    this.animations.add('left', [9, 8, 7, 8], 3, true);
+    this.animations.add('right', [1, 2, 3, 2], 6, true);
+    this.animations.add('left', [9, 8, 7, 8], 6, true);
     this.animations.add('idle', [0, 5], 1, false);
     this.animations.add('jump-right', [4], 1, false);
     this.animations.add('jump-left', [6], 1, false);
@@ -90,9 +90,10 @@ class Player extends Phaser.Sprite {
   }
 
   explode() {
-    this.scale.setTo(4, 0.5);
+    this.scale.setTo(2, 0.5);
     var thisScale = this.scale;
     setTimeout(function() {thisScale.setTo(1, 1)}, 1000);
+    // this.killPlayer();
   }
 
 }
