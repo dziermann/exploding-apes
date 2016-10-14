@@ -45,11 +45,11 @@ class Game extends Phaser.State {
 
   createPlayer() {
     if (location.search === '?debug') {
-      this.player1 = new DebugPlayer(this.game, this.game.world.centerX - 100, this.game.world.height, 'player', 'keyboard');
-      this.player2 = new DebugPlayer(this.game, this.game.world.centerX + 100, this.game.world.height, 'player', 'controller');
+      this.player1 = new DebugPlayer(this.game, this.game.world.centerX - 100, this.game.world.height, 'unicorn1', 'keyboard');
+      this.player2 = new DebugPlayer(this.game, this.game.world.centerX + 100, this.game.world.height, 'unicorn2', 'controller');
     } else {
-      this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height, 'player', 'keyboard');
-      this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height, 'player', 'controller');
+      this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height, 'unicorn1', 'keyboard');
+      this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height, 'unicorn2', 'controller');
 
     }
     this.game.add.existing(this.player1);
