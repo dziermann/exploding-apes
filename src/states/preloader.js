@@ -17,8 +17,8 @@ class Preloader extends Phaser.State {
   }
 
   loadResources() {
-	this.game.load.image('title', 'assets/spacekong.png');
-    this.game.load.image('background', 'assets/background2.png');
+	this.game.load.image('title', 'assets/spacekong.jpg');
+    this.game.load.image('background', 'assets/background2.jpg');
     this.game.load.image('brick', 'assets/brick.png', 50, 50);
     this.game.load.image('platform-grass', 'assets/platform.png');
     this.game.load.image('banana', 'assets/banana.png');
@@ -31,7 +31,6 @@ class Preloader extends Phaser.State {
     this.game.load.audio('ding', 'assets/ding.wav');
 	this.game.load.audio('sparkle', 'assets/sparkle.wav');
 
-	this.game.load.image('knightHawks', 'assets/fonts/retroFonts/KNIGHT3.png');
   }
 
   onLoadComplete() {
