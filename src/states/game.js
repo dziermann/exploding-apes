@@ -25,15 +25,21 @@ class Game extends Phaser.State {
   }
 
   createClouds() {
-    this.clouds = this.game.add.group();
-    this.clouds.enableBody = true;
+    //group(parent, name, addToStage, enableBody, physicsBodyType)
+    this.clouds = this.game.add.group(undefined, 'clouds', false, true, Phaser.Physics.ARCADE);
     this.clouds.tileWidth = this.game.world.width;
     this.clouds.tileHeight = this.game.world.height;
-    this.clouds.createMultiple(5, 'cloud-tiles');
-    this.addCloudOnTop();
-    this.addCloud(0, 0);
-    // me.timer = game.time.events.loop(2000, me.addPlatform, me);
-    this.game.time.events.loop(2000, this.addCloudOnTop, this);
+    this.clouds.createMultiple(3, 'cloud-tiles');
+
+    window.clouds = this.clouds;
+    for(var i = 0; i < this.clouds.children.length; i++) {
+      var currentCloud = this.clouds.children[i];
+      var height = this.game.world.height;
+      currentCloud.events.onKilled.add(function(cloud){
+        this.initCloud(cloud, 0, - (height - 5));
+      }, this);
+      this.initCloud(currentCloud, 0, height - i * (height - 5));
+    }
   }
 
   configurePhysics() {
@@ -61,22 +67,19 @@ class Game extends Phaser.State {
     this.game.physics.arcade.collide(bricks, this.player);
   }
 
-  addCloudOnTop() {
-    this.addCloud(0, -this.game.world.height);
-  }
-
-  addCloud(x, y) {
-    //Get a tile that is not currently on screen
-    var cloud = this.clouds.getFirstDead();
-    cloud.width = this.game.world.width;
-    cloud.height = this.game.world.height;
-    //Reset it to the specified coordinates
-    cloud.reset(x, y);
-    cloud.body.velocity.y = 150;
-    cloud.body.immovable = true;
-    //When the tile leaves the screen, kill it
-    cloud.checkWorldBounds = true;
-    cloud.outOfBoundsKill = true;
+  initCloud(cloud, x, y){
+    if(cloud){
+      cloud.width = this.game.world.width;
+      cloud.height = this.game.world.height;
+      //Reset it to the specified coordinates
+      cloud.reset(x, y);
+      cloud.body.velocity.y = 150;
+      cloud.body.immovable = true;
+      cloud.body.acceleration = new Phaser.Point();
+      //When the tile leaves the screen, move it to top
+      cloud.checkWorldBounds = true;
+      cloud.outOfBoundsKill = true;
+    }
   }
 
   createBricks() {
@@ -97,7 +100,6 @@ class Game extends Phaser.State {
 
       displayHeight -= 100;
     }
-
   }
 
   createPlatforms() {
