@@ -30,8 +30,7 @@ class Explosion extends Phaser.Sprite {
           '0xffa825',
           '0xffa137',
           '0xff5039'
-      ]
-      console.log(unicornColors.length);
+      ];
       this.emitter.forEach(function(particle) {
         //particle.tint = 0x00AF33;
       });

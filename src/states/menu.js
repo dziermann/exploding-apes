@@ -17,16 +17,9 @@ class Menu extends Phaser.State {
             "angry ape presents",
             "a ʕ•ᴥ•ʔ production",
             " ",
-            "ROBO",
-            "KONG",
-            "2000",
+            "ROBO KONG 2000",
             " ",
-            "team: ",
-            "nina",
-            "magda",
-            "caspers",
-            "hendrik",
-            "dino",
+            "team: nina, magda, caspers, hendrik, dino",
         ];
 
         this.text2;
