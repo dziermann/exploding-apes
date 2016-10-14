@@ -11,9 +11,11 @@ class Gameover extends Phaser.State {
   }
 
   create() {
-    var winner = 'nobody';
     if (this.p1.score > this.p2.score) winner = 'Player 1';
     else if (this.p1.score < this.p2.score) winner = 'Player 2';
+
+    this.p1.killPlayer();
+    this.p2.killPlayer();
     
 
     this.gameOverText = this.game.add.text(this.game.world.centerX - 150, this.game.world.centerY - 80, `GAME OVER`, {
@@ -24,7 +26,7 @@ class Gameover extends Phaser.State {
         });
 
     this.winnerText = this.game.add.text(this.game.world.centerX - 150, this.game.world.centerY, `the winner is ${winner}`, {
-            font: "30pt Courier",
+            font: "25pt Courier",
             fill: "#ff1779",
             stroke: "#c70078",
             strokeThickness: 2
