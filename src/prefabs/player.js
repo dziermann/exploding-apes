@@ -47,32 +47,32 @@ class Player extends Phaser.Sprite {
 
 
 
-    if ((this.control === 'keyboard' && cursorLeft) || (this.control === 'controller' && controllerLeft)) {
-      this.body.velocity.x = -400;
-      if (this.body.velocity.y !== 0) {
-        this.animations.play('jump-left');
+      if ((this.control === 'keyboard' && cursorLeft) || (this.control === 'controller' && controllerLeft)) {
+        this.body.velocity.x = -400;
+        if (this.body.velocity.y !== 0) {
+          this.animations.play('jump-left');
+        } else {
+          this.animations.play('left');
+        }
+
+      } else if ((this.control === 'keyboard' && cursorRight) || (this.control === 'controller' && controllerRight)) {
+        this.body.velocity.x = 400;
+        if (this.body.velocity.y !== 0) {
+          this.animations.play('jump-right');
+        } else {
+          this.animations.play('right');
+        }
       } else {
-        this.animations.play('left');
+        this.body.velocity.x = 0;
+        this.animations.play('idle');
       }
 
-    } else if ((this.control === 'keyboard' && cursorRight) || (this.control === 'controller' && controllerRight)) {
-      this.body.velocity.x = 400;
-      if (this.body.velocity.y !== 0) {
-        this.animations.play('jump-right');
-      } else {
-        this.animations.play('right');
+      if (this.body.velocity.y === 0 && (this.control === 'keyboard' && spacebarDown) || (this.control === 'controller' && controllerDown)) {
+        this.body.velocity.y = -600;
+        this.animations.play('jump');
+        this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'stars');
+        this.game.add.existing(this.explosion);
       }
-    } else {
-      this.body.velocity.x = 0;
-      this.animations.play('idle');
-    }
-
-    if (this.body.velocity.y === 0 && (this.control === 'keyboard' && spacebarDown) || (this.control === 'controller' && controllerDown)) {
-      this.body.velocity.y = -600;
-      this.animations.play('jump');
-      this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
-      this.game.add.existing(this.explosion);
-    }
 
   }
 
