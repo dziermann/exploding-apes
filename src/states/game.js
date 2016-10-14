@@ -22,7 +22,7 @@ class Game extends Phaser.State {
     this.createBricks();
     this.createPlatforms();
 
-    this.game.time.events.add(Phaser.Timer.SECOND * 3000, this.gameOver, this);
+    this.game.time.events.add(Phaser.Timer.SECOND * 3, this.gameOver, this);
   }
 
   createClouds() {
@@ -132,9 +132,7 @@ class Game extends Phaser.State {
   }
 
   gameOver() {
-    console.log('player 1:', this.player1.score);
-    console.log('player 2:', this.player2.score);
-    this.game.state.start('gameover');
+    this.game.state.start('gameover', true, false, [this.player1, this.player2]);
   }
 
 }
