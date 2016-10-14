@@ -54,8 +54,8 @@ class Explosion extends Phaser.Sprite {
   particleBurst(pointer, particleNumber) {
 
     //  Position the emitter where the mouse/touch event was
-    this.emitter.x = pointer.x + 32;
-    this.emitter.y = pointer.y + 100;
+    this.emitter.x = pointer.x + 80;
+    this.emitter.y = pointer.y + 120;
 
     this.emitter.minParticleSpeed.setTo(-200, -300);
     this.emitter.maxParticleSpeed.setTo(200, -400);
