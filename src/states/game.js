@@ -146,6 +146,10 @@ class Game extends Phaser.State {
     if(platform){
       //Reset it to the specified coordinates
       platform.reset(x, y);
+      platform.body.checkCollision.top = false;
+      platform.body.checkCollision.right = false;
+      platform.body.checkCollision.down = false;
+      platform.body.checkCollision.left = false;
       platform.body.velocity.y = 150;
       platform.body.immovable = true;
       platform.body.acceleration = new Phaser.Point();
