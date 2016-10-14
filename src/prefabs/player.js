@@ -13,7 +13,10 @@ class Player extends Phaser.Sprite {
     //setup physics properties
     this.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enableBody(this);
-    this.body.collideWorldBounds = true;
+
+    this.game.world.setBounds(0, 0, this.game.world.height, this.game.world.width);
+    this.checkWorldBounds = true;
+    this.outOfBoundsKill = true;
 
     //set animations
     this.animations.add('right', [1, 2, 3, 2], 3, true);

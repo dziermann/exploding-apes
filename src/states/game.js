@@ -22,10 +22,10 @@ class Game extends Phaser.State {
     this.configurePhysics();
     this.createClouds();
     this.createPlatforms(50);
-    this.createPlayer();
+    this.createPlayer(this);
     this.createBricks();
 
-    this.game.time.events.add(Phaser.Timer.SECOND * 15, this.gameOver, this);
+    this.game.time.events.add(Phaser.Timer.SECOND * 30, this.gameOver, this); //game time = 60
   }
 
   createClouds() {
@@ -53,10 +53,10 @@ class Game extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
   }
 
-  createPlayer() {
+  createPlayer(that) {
 
-      this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height, 'unicorn1', 'keyboard', this);
-      this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height, 'unicorn2', 'controller', this);
+      this.player1 = new Player(this.game, this.game.world.centerX - 100, 0, 'unicorn1', 'keyboard', this);
+      this.player2 = new Player(this.game, this.game.world.centerX + 100, 0, 'unicorn2', 'controller', this);
 
     this.game.add.existing(this.player1);
     this.game.add.existing(this.player2);
@@ -64,6 +64,16 @@ class Game extends Phaser.State {
     //  And then add it to the group
     this.playerEffectsGroup.add(this.player1);
     this.playerEffectsGroup.add(this.player2);
+
+    this.player1.events.onKilled.add(function(player){
+      player.killPlayer();
+      that.gameOver();
+    })
+
+    this.player2.events.onKilled.add(function(player){
+      player.killPlayer();
+      that.gameOver();
+    })
   }
 
   update() {
@@ -71,6 +81,7 @@ class Game extends Phaser.State {
     this.game.physics.arcade.collide(this.platforms, this.player2);
     this.game.physics.arcade.collide(bricks, this.player1);
     this.game.physics.arcade.collide(bricks, this.player2);
+    
     if (this.player1.alive) {
       this.player1.addScore(0.01);
     }
