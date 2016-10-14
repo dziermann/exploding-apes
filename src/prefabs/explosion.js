@@ -1,9 +1,9 @@
-//Documentation for Phaser's (2.5.0) states:: phaser.io/docs/2.5.0/Phaser.State.html
 class Explosion extends Phaser.Sprite {
 
   //initialization code in the constructor
-  constructor(game, x, y, frame, explosionType) {
+  constructor(game, x, y, frame, explosionType, gameState) {
     super(game, x, y);
+    this.gameState = gameState;
     this.emitter = this.game.add.emitter(0, 0, 100);
     //setup audio
     this.sparkle = this.game.add.audio('sparkle');
@@ -13,6 +13,7 @@ class Explosion extends Phaser.Sprite {
 
     } else if (explosionType === 'stars') {
       this.emitter.makeParticles('star', [0, 1], 200, true);
+      //this.gameState.playerEffectsGroup.add(starlord);
       this.sparkle.play();
       var unicornColors = [
           '0xff00aa',
@@ -32,7 +33,7 @@ class Explosion extends Phaser.Sprite {
           '0xff5039'
       ];
       this.emitter.forEach(function(particle) {
-        //particle.tint = 0x00AF33;
+        particle.tint = unicornColors[Math.floor(Math.random() * (15 - 0 + 1)) + 0];
       });
       this.particleBurst({
         'x': x,
@@ -56,8 +57,8 @@ class Explosion extends Phaser.Sprite {
     this.emitter.x = pointer.x + 80;
     this.emitter.y = pointer.y + 120;
 
-    this.emitter.minParticleSpeed.setTo(-200, -300);
-    this.emitter.maxParticleSpeed.setTo(200, -400);
+    this.emitter.minParticleSpeed.setTo(200, 300);
+    this.emitter.maxParticleSpeed.setTo(-200, 400);
     this.emitter.gravity = 150;
     this.emitter.bounce.setTo(0.5, 0.5);
     this.emitter.angularDrag = 30;
@@ -67,7 +68,7 @@ class Explosion extends Phaser.Sprite {
     //  The second gives each particle a 2000ms lifespan
     //  The third is ignored when using burst/explode mode
     //  The final parameter (10) is how many particles will be emitted in this single burst
-    this.emitter.start(true, 2000, null, particleNumber);
+    this.emitter.start(true, 1000, null, particleNumber);
   }
   shakenflash() {
     this.game.camera.shake(0.05, 100);
