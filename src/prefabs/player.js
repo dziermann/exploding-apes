@@ -24,7 +24,7 @@ class Player extends Phaser.Sprite {
     this.animations.add('jump', [10], 1, false);
 
     //set size
-    this.scale.setTo(2, 2);
+    this.scale.setTo(1, 1);
 
     //physics
    this.body.bounce.set(0.0);

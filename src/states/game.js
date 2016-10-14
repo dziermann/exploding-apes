@@ -21,7 +21,7 @@ class Game extends Phaser.State {
 
     this.configurePhysics();
     this.createClouds();
-    this.createPlatforms(50);
+    this.createPlatforms(75);
     this.createPlayer();
     this.createBricks();
 
@@ -55,8 +55,8 @@ class Game extends Phaser.State {
 
   createPlayer() {
 
-      this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height / 2, 'unicorn1', 'keyboard', this);
-      this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height / 2, 'unicorn2', 'controller', this);
+    this.player1 = new Player(this.game, this.game.world.centerX - 100, this.game.world.height / 2, 'unicorn1', 'keyboard', this);
+    this.player2 = new Player(this.game, this.game.world.centerX + 100, this.game.world.height / 2, 'unicorn2', 'controller', this);
 
     this.game.add.existing(this.player1);
     this.game.add.existing(this.player2);
