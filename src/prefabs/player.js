@@ -18,7 +18,7 @@ class Player extends Phaser.Sprite {
     this.animations.add('idle', [0, 5], 1, false);
     this.animations.add('jump-right', [4], 1, false);
     this.animations.add('jump-left', [6], 1, false);
-    this.animations.add('jump', [0, 5], 1, false);
+    this.animations.add('jump', [10], 1, false);
 
     //setup audio
     this.sparkle = this.game.add.audio('sparkle');
@@ -65,7 +65,7 @@ class Player extends Phaser.Sprite {
 
       if (this.spacebar.isDown && this.body.velocity.y === 0) {
         this.body.velocity.y = -600;
-        this.frame = 5;
+        this.animations.play('jump');
         this.sparkle.play();
         this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
         this.game.add.existing(this.explosion);
@@ -96,7 +96,7 @@ class Player extends Phaser.Sprite {
 
       if (this.pad1.justPressed(Phaser.Gamepad.XBOX360_A) && this.body.velocity.y === 0) {
         this.body.velocity.y = -600;
-        this.frame = 5;
+        this.animations.play('jump');
         this.sparkle.play();
         this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
         this.game.add.existing(this.explosion);
