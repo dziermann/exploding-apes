@@ -11,40 +11,50 @@ class Gameover extends Phaser.State {
   }
 
   create() {
-    if (this.p1.score > this.p2.score) winner = 'Player 1';
-    else if (this.p1.score < this.p2.score) winner = 'Player 2';
+    var winnerString = `It's a tie!`;
+    if (this.p1.score > this.p2.score) winnerString = 'The winner is Player 1!';
+    else if (this.p1.score < this.p2.score) winnerString = ' The winner is Player 2!';
 
     this.p1.killPlayer();
     this.p2.killPlayer();
     
 
-    this.gameOverText = this.game.add.text(this.game.world.centerX - 150, this.game.world.centerY - 80, `GAME OVER`, {
-            font: "50pt Courier",
+    this.gameOverText = this.game.add.text(0, this.game.world.centerY, `GAME OVER`, {
+            font: "60pt Courier",
             fill: "#ff1779",
             stroke: "#c70078",
-            strokeThickness: 2
+            strokeThickness: 2,
+            boundsAlignH: "center"
         });
 
-    this.winnerText = this.game.add.text(this.game.world.centerX - 150, this.game.world.centerY, `the winner is ${winner}`, {
+    this.winnerText = this.game.add.text(0, this.game.world.centerY - 100, `${winnerString}`, {
             font: "25pt Courier",
             fill: "#ff1779",
             stroke: "#c70078",
-            strokeThickness: 2
+            strokeThickness: 2,
+            boundsAlignH: "center"
         });
 
-    this.playerText1 = this.game.add.text(150, this.game.world.height - 200, `Player 1: ${Math.floor(this.p1.score)}`, {
+    this.playerText1 = this.game.add.text(0, this.game.world.centerY + 200, `Player 1: ${Math.floor(this.p1.score)}`, {
             font: "20pt Courier",
             fill: "#ff1779",
             stroke: "#c70078",
-            strokeThickness: 2
+            strokeThickness: 2,
+            boundsAlignH: "center"
         });
 
-    this.playerText2 = this.game.add.text(150, this.game.world.height - 150, `Player 2: ${Math.floor(this.p2.score)}`, {
+    this.playerText2 = this.game.add.text(0, this.game.world.centerY + 240, `Player 2: ${Math.floor(this.p2.score)}`, {
             font: "20pt Courier",
             fill: "#ff1779",
             stroke: "#c70078",
-            strokeThickness: 2
+            strokeThickness: 2,
+            boundsAlignH: "center"
         });
+
+    this.gameOverText.setTextBounds(0, 0, this.game.world.width, this.game.world.height);
+    this.winnerText.setTextBounds(0, 0, this.game.world.width, this.game.world.height);
+    this.playerText1.setTextBounds(0, 0, this.game.world.width, this.game.world.height);
+    this.playerText2.setTextBounds(0, 0, this.game.world.width, this.game.world.height);
 
     this.input.onDown.add(this.onInputDown, this);
   }
