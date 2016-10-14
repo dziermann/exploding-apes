@@ -25,7 +25,7 @@ class Game extends Phaser.State {
     this.createPlayer();
     this.createBricks();
 
-    this.game.time.events.add(Phaser.Timer.SECOND * 60, this.gameOver, this);
+    this.game.time.events.add(Phaser.Timer.SECOND * 15, this.gameOver, this);
   }
 
   createClouds() {
@@ -64,8 +64,6 @@ class Game extends Phaser.State {
     //  And then add it to the group
     this.playerEffectsGroup.add(this.player1);
     this.playerEffectsGroup.add(this.player2);
-
-    console.log('this.playerEffectsGroup: ', this.playerEffectsGroup.children);
   }
 
   update() {
@@ -74,11 +72,11 @@ class Game extends Phaser.State {
     this.game.physics.arcade.collide(bricks, this.player1);
     this.game.physics.arcade.collide(bricks, this.player2);
     if (this.player1.alive) {
-      this.player1.addScore(0.1);
+      this.player1.addScore(0.01);
     }
 
     if (this.player2.alive) {
-      this.player2.addScore(0.1);
+      this.player2.addScore(0.01);
     }
   }
 
