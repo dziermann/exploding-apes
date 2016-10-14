@@ -28,6 +28,7 @@ class Preloader extends Phaser.State {
     this.game.load.audio('gunshot', 'assets/gunshot.wav');
     this.game.load.audio('ding', 'assets/ding.wav');
     this.game.load.audio('sparkle', 'assets/sparkle.wav');
+    this.game.load.audio('music', 'assets/music/musico.mp3');
 
     this.game.load.spritesheet('unicorn1', 'assets/unicorn1.png', 80, 100);
     this.game.load.spritesheet('unicorn2', 'assets/unicorn2.png', 80, 100);
