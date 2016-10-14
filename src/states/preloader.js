@@ -33,6 +33,10 @@ class Preloader extends Phaser.State {
     this.game.load.spritesheet('unicorn1', 'assets/unicorn1.png', 80, 100);
     this.game.load.spritesheet('unicorn2', 'assets/unicorn2.png', 80, 100);
 
+    this.game.load.spritesheet('enemy', 'assets/ape.png', 65, 90);
+    //this.game.load.image('enemy', 'assets/enemy.png');
+    this.game.load.image('banana', 'assets/banana.png');
+
   }
 
   onLoadComplete() {
