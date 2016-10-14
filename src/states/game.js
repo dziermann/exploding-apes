@@ -1,7 +1,6 @@
 import Player from '../prefabs/player';
 import DebugPlayer from '../prefabs/player-debug';;
 import Platform from '../prefabs/platform';
-import Explosion from '../prefabs/explosion';
 
 var bricks;
 
