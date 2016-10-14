@@ -72,7 +72,7 @@ class Player extends Phaser.Sprite {
       if (this.body.velocity.y === 0 && (this.control === 'keyboard' && spacebarDown) || (this.control === 'controller' && controllerDown)) {
         this.body.velocity.y = -600;
         this.animations.play('jump');
-        this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
+        this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'stars');
         this.game.add.existing(this.explosion);
       }
   }

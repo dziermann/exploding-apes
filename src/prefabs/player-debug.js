@@ -18,10 +18,7 @@ class Player extends Phaser.Sprite {
     //set size
     this.scale.setTo(2, 2);
 
-    //physics
-
     this.body.velocity.setTo(200, 200);
-    this.game.physics.arcade.gravity.y = 400;
 
     this.body.bounce.set(0.0);
     this.body.gravity.set(0, 1000);
