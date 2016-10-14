@@ -22,6 +22,8 @@ class Game extends Phaser.State {
     this.createPlayer();
     this.createBricks();
     this.createPlatforms();
+
+    this.game.time.events.add(Phaser.Timer.SECOND * 3000, this.gameOver, this);
   }
 
   createClouds() {
@@ -59,6 +61,16 @@ class Game extends Phaser.State {
   update() {
     this.game.physics.arcade.collide(this.platform, this.player);
     this.game.physics.arcade.collide(bricks, this.player);
+
+    if (this.player1.alive) {
+      this.player1.addScore(0.1);
+    }
+
+    if (this.player2.alive) {
+      this.player2.addScore(0.1);
+    }
+
+
   }
 
   addCloudOnTop() {
@@ -116,6 +128,12 @@ class Game extends Phaser.State {
       x: Math.floor(Math.random() * (worldWidthMax - worldWidthMin + 1)) + worldWidthMin,
       y: Math.floor(Math.random() * (worldHeightMax - worldHeightMin + 1)) + worldHeightMin
     };
+  }
+
+  gameOver() {
+    console.log('player 1:', this.player1.score);
+    console.log('player 2:', this.player2.score);
+    this.game.state.start('gameover');
   }
 
 }

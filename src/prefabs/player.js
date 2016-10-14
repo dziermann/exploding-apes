@@ -6,6 +6,8 @@ class Player extends Phaser.Sprite {
   constructor(game, x, y, sprite, control) {
     super(game, x, y, sprite, 0);
 
+    this.score = 0;
+    this.alive = true;
     this.control = control;
     //setup physics properties
     this.anchor.setTo(0.5, 0.5);
@@ -73,7 +75,15 @@ class Player extends Phaser.Sprite {
         this.explosion = new Explosion(this.game, this.body.position.x, this.body.position.y, '', 'banana');
         this.game.add.existing(this.explosion);
       }
+  }
 
+  killPlayer () {
+    this.alive = false;
+    this.destroy();
+  }
+
+  addScore (score) {
+    this.score += score;
   }
 
 }
