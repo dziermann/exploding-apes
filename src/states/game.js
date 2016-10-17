@@ -27,7 +27,6 @@ class Game extends Phaser.State {
     this.createPlayer(this);
 
     this.createBricks();
-    //this.createEnemyBricks();
     this.createEnemies();
 
     this.game.time.events.add(Phaser.Timer.SECOND * 30, this.gameOver, this); //game time = 60
@@ -110,17 +109,6 @@ class Game extends Phaser.State {
     this.player2.explode();
   }
 
-  createEnemyBricks() {
-    this.enemyBricks = this.game.add.group();
-    this.enemyBricks.enableBody = true;
-    var displayHeight = this.game.world.height;
-    var displayWidth = this.game.world.width;
-    this.enemybrickLeft = this.enemyBricks.create(displayWidth - 200, displayHeight - 500, 'brick');
-    this.enemybrickLeft.body.immovable = true;
-    this.enemybrickLeft.scale.setTo(2, 2);
-    this.enemybrickLeft.body.allowGravity = false;
-  }
-
   update() {
     this.game.physics.arcade.collide(this.platforms, this.player1);
     this.game.physics.arcade.collide(this.platforms, this.player2);
@@ -160,6 +148,7 @@ class Game extends Phaser.State {
     bricks = this.game.add.group();
     bricks.enableBody = true;
     var displayHeight = this.game.world.height;
+    var displayWidth = this.game.world.width;
 
     while (displayHeight > 0) {
       var brickLeft = bricks.create(0, displayHeight - 100, 'brick');
@@ -173,6 +162,15 @@ class Game extends Phaser.State {
       brickRight.body.allowGravity = false;
 
       displayHeight -= 100;
+    }
+
+    while (displayWidth > 0) {
+      var brick = bricks.create(displayWidth- 100, -150, 'brick');
+      brick.body.immovable = true;
+      brick.scale.setTo(2, 2);
+      brick.body.allowGravity = false;
+
+      displayWidth -= 100;
     }
   }
 

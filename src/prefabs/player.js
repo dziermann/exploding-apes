@@ -14,7 +14,7 @@ class Player extends Phaser.Sprite {
     this.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enableBody(this);
 
-    this.game.world.setBounds(0, 0, this.game.world.height, this.game.world.width);
+    //this.game.world.setBounds(0, 0, this.game.world.height, this.game.world.width);
     this.checkWorldBounds = true;
     this.outOfBoundsKill = true;
 

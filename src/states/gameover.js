@@ -12,8 +12,11 @@ class Gameover extends Phaser.State {
 
   create() {
     var winnerString = `It's a tie!`;
-    if (this.p1.score > this.p2.score) winnerString = 'The winner is Player 1!';
-    else if (this.p1.score < this.p2.score) winnerString = ' The winner is Player 2!';
+
+    if(this.p1.alive && this.p2.alive && this.p1.score > this.p2.score) winnerString = 'The winner is Player 1!';
+    else if(this.p1.alive && this.p2.alive && this.p1.score < this.p2.score) winnerString = 'The winner is Player 2!';
+    else if(this.p1.alive && !this.p2.alive) winnerString = 'The winner is Player 1!';
+    else if(!this.p1.alive && this.p2.alive) winnerString = 'The winner is Player 2!';
 
     this.p1.killPlayer();
     this.p2.killPlayer();
