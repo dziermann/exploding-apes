@@ -3,6 +3,7 @@ import DebugPlayer from '../prefabs/player-debug';
 import Platform from '../prefabs/platform';
 import Enemy from '../prefabs/enemy';
 import Menu from '../states/menu';
+import Scroller from '../prefabs/scroller'
 
 var bricks;
 
@@ -13,16 +14,11 @@ class Game extends Phaser.State {
   }
 
   create() {
-    //add background image
-    this.background = this.game.add.sprite(0, 0, 'background');
-    this.background.height = this.game.world.height;
-    this.background.width = this.game.world.width;
-
     //group(parent, name, addToStage, enableBody, physicsBodyType)
     this.playerEffectsGroup = this.game.add.group(undefined, 'playerEffectsGroup', true, true);
 
     this.configurePhysics();
-    this.createClouds();
+    this.clouds = new Scroller(this.game, 'cloud-tiles', 'clouds', 100, this.game.world.height, this.game.world.width);
     this.createPlatforms(75);
     this.createPlayer(this);
 
@@ -30,24 +26,6 @@ class Game extends Phaser.State {
     this.createEnemies();
 
     this.game.time.events.add(Phaser.Timer.SECOND * 30, this.gameOver, this); //game time = 60
-  }
-
-  createClouds() {
-    //group(parent, name, addToStage, enableBody, physicsBodyType)
-    this.clouds = this.game.add.group(undefined, 'clouds', false, true, Phaser.Physics.ARCADE);
-    this.clouds.tileWidth = this.game.world.width;
-    this.clouds.tileHeight = this.game.world.height;
-    this.clouds.createMultiple(3, 'cloud-tiles');
-
-    window.clouds = this.clouds;
-    for(var i = 0; i < this.clouds.children.length; i++) {
-      var currentCloud = this.clouds.children[i];
-      var height = this.game.world.height;
-      currentCloud.events.onKilled.add(function(cloud){
-        this.initCloud(cloud, 0, - (height - 5));
-      }, this);
-      this.initCloud(currentCloud, 0, height - i * (height - 5));
-    }
   }
 
   configurePhysics() {
@@ -58,9 +36,9 @@ class Game extends Phaser.State {
   }
 
 
-  getStartPlatforms(){
+  getStartPlatforms() {
     var platforms = this.platforms.children;
-    return platforms.slice(platforms.length-2)
+    return platforms.slice(platforms.length - 2)
   }
 
   createPlayer(that) {
@@ -81,6 +59,7 @@ class Game extends Phaser.State {
     this.playerEffectsGroup.add(this.player1);
     this.playerEffectsGroup.add(this.player2);
 
+    /**
     this.player1.events.onKilled.add(function(player){
       player.killPlayer();
       that.gameOver();
@@ -90,6 +69,7 @@ class Game extends Phaser.State {
       player.killPlayer();
       that.gameOver();
     })
+    **/
   }
 
   createEnemies() {
@@ -110,18 +90,20 @@ class Game extends Phaser.State {
   }
 
   update() {
-    this.game.physics.arcade.collide(this.platforms, this.player1);
-    this.game.physics.arcade.collide(this.platforms, this.player2);
-    this.game.physics.arcade.collide(bricks, this.player1);
-    this.game.physics.arcade.collide(bricks, this.player2);
-    
-    if (this.player1.alive) {
+    [this.player1, this.player2].forEach(function(player) {
+      this.game.physics.arcade.collide(this.leftBricks, player);
+      this.game.physics.arcade.collide(this.rightBricks, player);
+      this.game.physics.arcade.collide(this.platforms, player);
+
+    }, this);
+
+    /*if (this.player1.alive) {
       this.player1.addScore(0.01);
     }
 
     if (this.player2.alive) {
       this.player2.addScore(0.01);
-    }
+    }*/
 
     this.game.physics.arcade.collide(this.enemyBricks, this.enemy);
     this.game.physics.arcade.overlap(this.enemy.getWeapon().bullets, this.player1, this.explode1, null, this);
@@ -129,49 +111,16 @@ class Game extends Phaser.State {
 
   }
 
-  initCloud(cloud, x, y){
-    if(cloud){
-      cloud.width = this.game.world.width;
-      cloud.height = this.game.world.height;
-      //Reset it to the specified coordinates
-      cloud.reset(x, y);
-      cloud.body.velocity.y = 150;
-      cloud.body.immovable = true;
-      cloud.body.acceleration = new Phaser.Point();
-      //When the tile leaves the screen, move it to top
-      cloud.checkWorldBounds = true;
-      cloud.outOfBoundsKill = true;
-    }
-  }
-
   createBricks() {
-    bricks = this.game.add.group();
-    bricks.enableBody = true;
-    var displayHeight = this.game.world.height;
-    var displayWidth = this.game.world.width;
-
-    while (displayHeight > 0) {
-      var brickLeft = bricks.create(0, displayHeight - 100, 'brick');
-      brickLeft.body.immovable = true;
-      brickLeft.scale.setTo(2, 2);
-      brickLeft.body.allowGravity = false;
-
-      var brickRight = bricks.create(this.game.world.width - 100, displayHeight - 100, 'brick');
-      brickRight.body.immovable = true;
-      brickRight.scale.setTo(2, 2);
-      brickRight.body.allowGravity = false;
-
-      displayHeight -= 100;
-    }
-
-    while (displayWidth > 0) {
-      var brick = bricks.create(displayWidth- 100, -150, 'brick');
-      brick.body.immovable = true;
-      brick.scale.setTo(2, 2);
-      brick.body.allowGravity = false;
-
-      displayWidth -= 100;
-    }
+    var checkCollision = {
+      top: true,
+      right: true,
+      down: true,
+      left: true
+    };
+    this.leftBricks = new Scroller(this.game, 'brick', 'left-bricks', 175, 100, 100, "left", checkCollision);
+    this.rightBricks = new Scroller(this.game, 'brick', 'right-bricks', 175, 100, 100, "right", checkCollision);
+    window.leak = this.rightBricks;
   }
 
   createPlatforms(distance) {
@@ -179,39 +128,41 @@ class Game extends Phaser.State {
     this.platforms = this.game.add.group(undefined, 'platforms', false, true, Phaser.Physics.ARCADE);
     this.platforms.createMultiple(20, 'platform-grass');
 
-    function randomBetween(a,b){
-        if(a > b){
-          var c = a;
-          a = b;
-          b = c;
-        }
-        var dist = b - a;
-        var rand = Math.round(Math.random() * dist);
-        return a + rand;
+    function randomBetween(a, b) {
+      if (a > b) {
+        var c = a;
+        a = b;
+        b = c;
+      }
+      var dist = b - a;
+      var rand = Math.round(Math.random() * dist);
+      return a + rand;
     }
 
-    for(var i = 0; i < this.platforms.children.length; i++) {
+    for (var i = 0; i < this.platforms.children.length; i++) {
       var currentPlatform = this.platforms.children[i];
       var height = this.game.world.height;
       var width = this.game.world.width;
-      currentPlatform.events.onKilled.add(function(platform){
+      currentPlatform.events.onKilled.add(function(platform) {
         this.initPlatform(platform, randomBetween(0, width), 0 - platform.height);
       }, this);
-      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i - i % 2)+1));
+      this.initPlatform(currentPlatform, randomBetween(0, width), height - distance * ((i - i % 2) + 1));
     }
   }
 
-  initPlatform(platform, x, y){
-    if(platform){
+  initPlatform(platform, x, y) {
+    if (platform) {
+
       //Reset it to the specified coordinates
       platform.reset(x, y);
-      platform.body.checkCollision.top = false;
+      platform.body.checkCollision.top = true;
       platform.body.checkCollision.right = false;
       platform.body.checkCollision.down = false;
       platform.body.checkCollision.left = false;
       platform.body.velocity.y = 150;
       platform.body.immovable = true;
       platform.body.acceleration = new Phaser.Point();
+
       //When the tile leaves the screen, move it to top
       platform.checkWorldBounds = true;
       platform.outOfBoundsKill = true;
